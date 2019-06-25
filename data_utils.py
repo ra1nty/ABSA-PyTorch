@@ -133,7 +133,7 @@ class ABSADataset(Dataset):
             text_left, _, text_right = [s.lower().strip() for s in lines[i].partition("$T$")]
             aspect = lines[i + 1].lower().strip()
             polarity = lines[i + 2].strip()
-
+            text_raw = text_left + " " + aspect + " " + text_right
             text_raw_indices = tokenizer.text_to_sequence(text_left + " " + aspect + " " + text_right)
             text_raw_without_aspect_indices = tokenizer.text_to_sequence(text_left + " " + text_right)
             text_left_indices = tokenizer.text_to_sequence(text_left)
@@ -154,6 +154,7 @@ class ABSADataset(Dataset):
             aspect_bert_indices = tokenizer.text_to_sequence("[CLS] " + aspect + " [SEP]")
 
             data = {
+                'text_raw': text_raw,
                 'text_bert_indices': text_bert_indices,
                 'bert_segments_ids': bert_segments_ids,
                 'text_raw_bert_indices': text_raw_bert_indices,
