@@ -154,6 +154,7 @@ class ABSADataset(Dataset):
             aspect_bert_indices = tokenizer.text_to_sequence("[CLS] " + aspect + " [SEP]")
 
             data = {
+                'aspect_raw': aspect,
                 'text_raw': text_raw,
                 'text_bert_indices': text_bert_indices,
                 'bert_segments_ids': bert_segments_ids,
