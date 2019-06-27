@@ -180,7 +180,7 @@ class Instructor:
                     for text, aspect, polarity in zip(d1, d2, d3):
                         fd.write(text)
                         fd.write(aspect)
-                        fd.write(polarity)
+                        fd.write(str(polarity))
                         fd.write('\n\n')
 
 
