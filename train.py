@@ -143,7 +143,10 @@ class Instructor:
 
                 n_correct += (torch.argmax(t_outputs, -1) == t_targets).sum().item()
                 n_total += len(t_outputs)
-                print(t_sample_batched[torch.argmax(t_outputs, -1) != t_targets]['text_raw'])
+
+                output_np = torch.argmax(t_outputs, -1).cpu().numpy()
+                truth_np = t_targets.cpu().numpy()
+                print(numpy.array(t_sample_batched['text_raw'])[output_np != truth_np])
                 if t_targets_all is None:
                     t_targets_all = t_targets
                     t_outputs_all = t_outputs
