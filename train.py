@@ -146,7 +146,7 @@ class Instructor:
 
                 output_np = torch.argmax(t_outputs, -1).cpu().numpy()
                 truth_np = t_targets.cpu().numpy()
-                print(numpy.array(t_sample_batched['text_raw'])[output_np != truth_np])
+                #print(numpy.array(t_sample_batched['text_raw'])[output_np != truth_np])
                 if t_targets_all is None:
                     t_targets_all = t_targets
                     t_outputs_all = t_outputs
@@ -157,6 +157,26 @@ class Instructor:
         acc = n_correct / n_total
         f1 = metrics.f1_score(t_targets_all.cpu(), torch.argmax(t_outputs_all, -1).cpu(), labels=[0, 1, 2], average='macro')
         return acc, f1
+
+    def _generate_error_analysis(self, data_loader, filename='error.txt'):
+        with open(filename) as fd:
+            self.model.eval()
+            with torch.no_grad():
+                for t_batch, t_sample_batched in enumerate(data_loader):
+                    t_inputs = [t_sample_batched[col].to(self.opt.device) for col in self.opt.inputs_cols]
+                    t_targets = t_sample_batched['polarity'].to(self.opt.device)
+                    t_outputs = self.model(t_inputs)
+
+                    output_np = torch.argmax(t_outputs, -1).cpu().numpy()
+                    truth_np = t_targets.cpu().numpy()
+                    false_idx = [output_np != truth_np]
+                    for text, aspect, polarity in numpy.array(t_sample_batched['text_raw', 'aspect', 'polarity'])[false_idx]:
+                        fd.write(text)
+                        fd.write(aspect)
+                        fd.write(polarity)
+
+
+
 
     def run(self):
         # Loss and Optimizer
@@ -173,6 +193,7 @@ class Instructor:
         self.model.load_state_dict(torch.load(best_model_path))
         self.model.eval()
         test_acc, test_f1 = self._evaluate_acc_f1(test_data_loader)
+        self._generate_error_analysis(test_data_loader)
         logger.info('>> test_acc: {:.4f}, test_f1: {:.4f}'.format(test_acc, test_f1))
 
 
