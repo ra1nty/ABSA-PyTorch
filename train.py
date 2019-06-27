@@ -159,7 +159,7 @@ class Instructor:
         return acc, f1
 
     def _generate_error_analysis(self, data_loader, filename='error.txt'):
-        with open(filename) as fd:
+        with open(filename, 'w+') as fd:
             self.model.eval()
             with torch.no_grad():
                 for t_batch, t_sample_batched in enumerate(data_loader):
