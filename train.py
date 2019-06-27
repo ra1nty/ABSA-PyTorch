@@ -178,9 +178,9 @@ class Instructor:
                     d3 = numpy.array(t_sample_batched['polarity'])[false_idx]
 
                     for text, aspect, polarity in zip(d1, d2, d3):
-                        fd.write(text)
-                        fd.write(aspect)
-                        fd.write(str(polarity))
+                        fd.write(text+'\n')
+                        fd.write(aspect+'\n')
+                        fd.write(str(polarity)+'\n')
                         fd.write('\n\n')
 
 
