@@ -117,6 +117,7 @@ class Instructor:
                     logger.info('loss: {:.4f}, acc: {:.4f}'.format(train_loss, train_acc))
 
             val_acc, val_f1 = self._evaluate_acc_f1(val_data_loader)
+            self._generate_error_analysis(val_data_loader)
             logger.info('> val_acc: {:.4f}, val_f1: {:.4f}'.format(val_acc, val_f1))
             if val_acc > max_val_acc:
                 max_val_acc = val_acc
@@ -173,7 +174,7 @@ class Instructor:
                     false_idx = [output_np != truth_np]
 
                     d1 = numpy.array(t_sample_batched['text_raw'])[false_idx]
-                    d2 = numpy.array(t_sample_batched['aspect'])[false_idx]
+                    d2 = numpy.array(t_sample_batched['aspect_raw'])[false_idx]
                     d3 = numpy.array(t_sample_batched['polarity'])[false_idx]
 
                     for text, aspect, polarity in zip(d1, d2, d3):
