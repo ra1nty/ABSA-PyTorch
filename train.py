@@ -169,11 +169,18 @@ class Instructor:
 
                     output_np = torch.argmax(t_outputs, -1).cpu().numpy()
                     truth_np = t_targets.cpu().numpy()
+
                     false_idx = [output_np != truth_np]
-                    for text, aspect, polarity in numpy.array(t_sample_batched['text_raw', 'aspect', 'polarity'])[false_idx]:
+
+                    d1 = numpy.array(t_sample_batched['text_raw'])[false_idx]
+                    d2 = numpy.array(t_sample_batched['aspect'])[false_idx]
+                    d3 = numpy.array(t_sample_batched['polarity'])[false_idx]
+
+                    for text, aspect, polarity in zip(d1, d2, d3):
                         fd.write(text)
                         fd.write(aspect)
                         fd.write(polarity)
+                        fd.write('\n\n')
 
 
 
