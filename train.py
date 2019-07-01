@@ -176,11 +176,12 @@ class Instructor:
                     d1 = numpy.array(t_sample_batched['text_raw'])[false_idx]
                     d2 = numpy.array(t_sample_batched['aspect_raw'])[false_idx]
                     d3 = numpy.array(t_sample_batched['polarity'])[false_idx]
-
-                    for text, aspect, polarity in zip(d1, d2, d3):
+                    d4 = numpy.array(output_np[false_idx])
+                    for text, aspect, polarity, predicted in zip(d1, d2, d3, d4):
                         fd.write(text+'\n')
                         fd.write(aspect+'\n')
                         fd.write(str(polarity)+'\n')
+                        fd.write(str(predicted)+'\n')
                         fd.write('\n\n')
 
 
